@@ -282,13 +282,14 @@
         <scene sceneID="X11-va-zKw">
             <objects>
                 <viewController storyboardIdentifier="PhotoViewController" id="Eby-Yo-wYz" customClass="PhotoViewController" customModule="Scavenger_Hunt" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Keh-zC-q73" customClass="UIImageView" customModule="Scavenger_Hunt" customModuleProvider="target">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleAspectFill" id="Keh-zC-q73" customClass="UIImageView" customModule="Scavenger_Hunt" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DJ4-LV-SgI">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DJ4-LV-SgI">
+                                <rect key="frame" x="-18" y="-203" width="476" height="1282"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="AMj-CA-9DD"/>

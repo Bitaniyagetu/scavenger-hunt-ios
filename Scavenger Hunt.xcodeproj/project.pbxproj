@@ -346,6 +346,7 @@
 				DEVELOPMENT_TEAM = R797S9X7G2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "lab-task-squirrel/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs access to the camera to complete scavenger hunt tasks.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photos in order to add a photo to complete a task.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -375,6 +376,7 @@
 				DEVELOPMENT_TEAM = R797S9X7G2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "lab-task-squirrel/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs access to the camera to complete scavenger hunt tasks.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photos in order to add a photo to complete a task.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

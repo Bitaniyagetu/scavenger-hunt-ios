@@ -55,7 +55,13 @@ class TaskDetailViewController: UIViewController {
             print("❌ task was nil")
             return
         }
-
+        
+        // Register custom annotation view
+        mapView.register(TaskAnnotationView.self, forAnnotationViewWithReuseIdentifier: TaskAnnotationView.identifier)
+        
+        
+        
+        mapView.delegate = self
         updateUI()
 
         if task.isComplete {
@@ -63,7 +69,7 @@ class TaskDetailViewController: UIViewController {
         }
     }
 
-
+    
 
     /// Configure UI for the given task
     private func updateUI() {
@@ -84,36 +90,41 @@ class TaskDetailViewController: UIViewController {
         attachPhotoButton.isHidden = task.isComplete
         
         viewPhotoButton.isHidden = !task.isComplete
+        mapView.isHidden = task.imageLocation == nil
+
+    }
+    private func presentCamera() {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.delegate = self
+        picker.allowsEditing = false
+        present(picker, animated: true)
     }
 
     @IBAction func didTapAttachPhotoButton(_ sender: Any) {
-        // TODO: Check and/or request photo library access authorization.
-        // If authorized, show photo picker, otherwise request authorization.
-        // If authorization denied, show alert with option to go to settings to update authorization.
-        if PHPhotoLibrary.authorizationStatus(for: .readWrite) != .authorized {
-            // Request photo library access
-            PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] status in
-                switch status {
-                case .authorized:
-                    // The user authorized access to their photo library
-                    // show picker (on main thread)
-                    DispatchQueue.main.async {
-                        self?.presentImagePicker()
-                    }
-                default:
-                    // show settings alert (on main thread)
-                    DispatchQueue.main.async {
-                        // Helper method to show settings alert
-                        self?.presentGoToSettingsAlert()
-                    }
-                }
-            }
-        } else {
-            // Show photo picker
-            presentImagePicker()
+        let alert = UIAlertController(
+            title: "Attach Photo",
+            message: "Choose a photo source",
+            preferredStyle: .actionSheet
+        )
+
+        // Camera option (real device only)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alert.addAction(UIAlertAction(title: "Take Photo", style: .default) { _ in
+                self.presentCamera()
+            })
         }
 
+        // Photo library option (already works)
+        alert.addAction(UIAlertAction(title: "Photo Library", style: .default) { _ in
+            self.presentImagePicker()
+        })
+
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        present(alert, animated: true)
     }
+
 
     private func presentImagePicker() {
         // TODO: Create, configure and present image picker.
@@ -222,6 +233,35 @@ extension TaskDetailViewController: MKMapViewDelegate {
     }
 
 }
+
+extension TaskDetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    ) {
+        picker.dismiss(animated: true)
+
+        guard let image = info[.originalImage] as? UIImage else { return }
+
+        // Camera photos don't have location metadata automatically
+        let location = CLLocationManager().location ?? CLLocation(latitude: 0, longitude: 0)
+
+        task.set(image, with: location)
+        updateUI()
+        updateMapView()
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+}
+
+
+
+
+
+
 extension TaskDetailViewController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
